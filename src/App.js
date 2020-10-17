@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { uniqueId } from "lodash";
 import filesize from "filesize";
+import Lottie from 'react-lottie';
+import animationData from './assets/6363-bro-animation-emoji.json';
 
 import api from "./services/api";
 
@@ -12,7 +14,8 @@ import FileList from "./components/FileList";
 
 class App extends Component {
   state = {
-    uploadedFiles: []
+    uploadedFiles: [],
+   
   };
 
   async componentDidMount() {
@@ -101,12 +104,29 @@ class App extends Component {
     this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
   }
 
+  options() {
+    return {
+      loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        
+    }
+    };
+  }
+
   render() {
     const { uploadedFiles } = this.state;
 
     return (
       <Container>
         <Content>
+          <Lottie 
+            options={{loop: true, autoplay: true, animationData, rendererSettings: {preserveAspectRatio: "xMidYMid slice"} }}
+            // height={100}
+            width={150}
+            />
           <Upload onUpload={this.handleUpload} />
           {!!uploadedFiles.length && (
             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
